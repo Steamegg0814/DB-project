@@ -20,7 +20,7 @@
 --  DDL for Table CART
 --------------------------------------------------------
 
-/*這邊我們有算CART 總額跟商品數量*/
+/*這邊我們有算CART 總額跟商品數量,sql.py記得要加上function*/
   CREATE TABLE "GROUP3"."CART" 
    (	"CTIME" DATE, 
 	"CTOTAL" NUMBER(38,0), 
@@ -64,6 +64,7 @@
 --------------------------------------------------------
 --  DDL for Table ORDER_LIST
 --------------------------------------------------------
+/*PRICE是訂單總價,計算時會把同MID的所有TNO加總*/
  CREATE TABLE "GROUP3"."ORDER_LIST" 
    (	"OID" NUMBER(38,0), 
 	"MID" NUMBER(38,0), 
@@ -85,7 +86,7 @@
 --------------------------------------------------------
 --  DDL for Table PRODUCT
 --------------------------------------------------------
-
+/*這邊的PRICE跟ORDER LIST的price不一樣*/
   CREATE TABLE "GROUP3"."PRODUCT" 
    (	"PID" VARCHAR2(26 BYTE), 
 	"PNAME" VARCHAR2(128 BYTE),
