@@ -92,10 +92,10 @@ input{
     margin-top: 1px;
 }
 .book_table{
-    display: flex;
+    display: relative;
     justify-content: center;
     border-color: black !important;
-    margin: 10px;
+    margin: 50px;
 }
 .left{
     float:left;
