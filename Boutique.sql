@@ -16,6 +16,13 @@
 --------------------------------------------------------
 
    CREATE SEQUENCE  "GROUP3"."ORDER_OID_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 9 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+
+--------------------------------------------------------
+--  DDL for Sequence CARE_OID_SEQ
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "GROUP3"."CARE_CID_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 9 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+
 --------------------------------------------------------
 --  DDL for Table CART
 --------------------------------------------------------
@@ -248,3 +255,19 @@ END;
 
 /
 ALTER TRIGGER "GROUP3"."ORDER_TRG" ENABLE;
+
+--------------------------------------------------------
+--  DDL for Trigger ORDER_TRG
+--------------------------------------------------------
+
+CREATE OR REPLACE EDITIONABLE TRIGGER "GROUP3"."CARE_TRG" 
+BEFORE INSERT ON care  
+FOR EACH ROW  
+BEGIN  
+IF :new.cid IS NULL THEN  
+SELECT care_cid_seq.nextval INTO :new.cid FROM dual;  
+END IF;  
+END;
+
+/
+ALTER TRIGGER "GROUP3"."CARE_TRG" ENABLE;
