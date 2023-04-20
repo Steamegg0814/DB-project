@@ -32,4 +32,4 @@ if __name__ == '__main__':
     app.debug = True
     app.secret_key = "Your Key"
     #監聽所有頁面
-    app.run('0.0.0.0')
+    app.run(host='0.0.0.0')
