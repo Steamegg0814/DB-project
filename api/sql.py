@@ -64,9 +64,9 @@ class Cart():
         sql = 'SELECT * FROM CART WHERE MID = :id'
         return DB.fetchone(DB.execute_input(DB.prepare(sql), {'id': user_id}))
 
-    def add_cart(user_id, time):
-        sql = 'INSERT INTO CART VALUES (:id, :time, cart_tno_seq.nextval)'
-        DB.execute_input( DB.prepare(sql), {'id': user_id, 'time':time})
+    def add_cart(time, user_id):
+        sql = 'INSERT INTO CART VALUES (:time, :id, cart_tno_seq.nextval)'
+        DB.execute_input( DB.prepare(sql), {'time':time ,'id': user_id})
         DB.commit()
 
     def clear_cart(user_id):
@@ -181,3 +181,12 @@ class Analysis():
     def member_sale_count():
         sql = 'SELECT COUNT(*), MEMBER.MID, MEMBER.NAME FROM ORDER_LIST, MEMBER WHERE ORDER_LIST.MID = MEMBER.MID AND MEMBER.IDENTITY = :identity GROUP BY MEMBER.MID, MEMBER.NAME ORDER BY COUNT(*) DESC'
         return DB.fetchall( DB.execute_input( DB.prepare(sql), {'identity':'user'}))
+    
+
+
+class Care():
+    
+    def add_care(time, user_id):
+        sql = 'INSERT INTO CART(CID, PTIME, DTIME) VALUES ( care_tno_seq.nextval ,TODATE:ptime ,TODATE:dtime)'
+        DB.execute_input( DB.prepare(sql), {'ptime':time ,'dtime': time})
+        DB.commit()
