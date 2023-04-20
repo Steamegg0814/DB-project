@@ -169,9 +169,10 @@ def cart():
         if "pid" in request.form :
             data = Cart.get_cart(current_user.id)
             
+            
             if( data == None): #假如購物車裡面沒有他的資料
                 time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                Cart.add_cart(current_user.id, time) # 幫他加一台購物車
+                Cart.add_cart(time, current_user.id) # 幫他加一台購物車
                 data = Cart.get_cart(current_user.id) 
                 
             tno = data[2] # 取得交易編號
@@ -325,3 +326,35 @@ def only_cart():
         product_data.append(product)
     
     return product_data
+
+
+
+def care():
+    
+    cprice = Product.get_product(pid)[2]
+
+    if(count == None):
+        return 0
+    
+    data = Cart.get_cart(current_user.id)
+    tno = data[2]
+    product_row = Record.get_record(tno)
+    product_data = []
+
+    for i in product_row:
+        pid = i[1]
+        pname = Product.get_name(i[1])
+        price = i[3]
+        amount = i[2]
+        
+        product = {
+            '商品編號': pid,
+            '商品名稱': pname,
+            '商品價格': price,
+            '數量': amount
+        }
+        product_data.append(product)
+    
+    return product_data
+
+print("test")
