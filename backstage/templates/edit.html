@@ -9,9 +9,9 @@
 {% block content%}
 
 
-<br/>
+<br />
 <div class="container-xl">
-  <br/>
+  <br />
   <form method="post" enctype=multipart/form-data action={{ url_for('manager.edit') }}>
     <table class="table table-bordered">
       <tr>
@@ -31,20 +31,19 @@
         <td>
           <select class="form-control" name="category">
             {% if data.類別 == 'CD' %}
-              <option value="BOOK">BOOK</option>
-              <option value="DVD">DVD</option>
-              <option value="CD" selected>CD</option>
+            <option value="BAG">BAG</option>
+            <option value="SHOES">SHOES</option>
+            <option value="JEWELRY" selected>JEWELRY</option>
             {% elif data.類別 == 'DVD' %}
-              <option value="BOOK">BOOK</option>
-              <option value="DVD" selected>DVD</option>
-              <option value="CD">CD</option>
+            <option value="BAG">BAG</option>
+            <option value="SHOES" selected>SHOES</option>
+            <option value="JEWELRY">JEWELRY</option>
             {% else %}
-              <option value="BOOK" selected>BOOK</option>
-              <option value="DVD">DVD</option>
-              <option value="CD">CD</option>
+            <option value="BAG" selected>BAG</option>
+            <option value="SHOES">SHOES</option>
+            <option value="JEWELRY">JEWELRY</option>
             {% endif %}
-            
-        </select>
+          </select>
       </tr>
       <tr>
         <th>商品敘述</th>
@@ -61,7 +60,7 @@
     </table>
     <center>
       <div class="option">
-        <button class="btn btn-outline-success" type="submit">確定修改</button> 
+        <button class="btn btn-outline-success" type="submit">確定修改</button>
         <a href="{{ url_for('manager.productManager') }}"><button class="btn btn-outline-danger">回商品管理</button></a>
       </div>
     </center>

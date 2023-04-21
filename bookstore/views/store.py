@@ -71,7 +71,7 @@ def bookstore():
         price = data[2]
         category = data[3]
         description = data[4]
-        image = 'sdg.jpg'
+        image = 'chanel_bag.jpg'
         
         product = {
             '商品編號': pid,
@@ -356,5 +356,3 @@ def care():
         product_data.append(product)
     
     return product_data
-
-print("test")

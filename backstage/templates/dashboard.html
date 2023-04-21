@@ -10,16 +10,19 @@
   <div id="dashboard">
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">訂單數量分析</button>
-        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">書本銷量分類</button>
-        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">消費總額排名</button>        
-      </div>      
+        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button"
+          role="tab" aria-controls="nav-home" aria-selected="true">訂單數量分析</button>
+        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button"
+          role="tab" aria-controls="nav-profile" aria-selected="false">銷量分類</button>
+        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button"
+          role="tab" aria-controls="nav-contact" aria-selected="false">消費總額排名</button>
+      </div>
     </nav>
   </div>
-  <br/>
+  <br />
   <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-      <center> 
+      <center>
         <div id="maina" class="container-fluid" style="width:1200px;height:500px"></div>
       </center>
     </div>
@@ -40,8 +43,8 @@
   // 以長條圖與折線圖分析各月訂單
   var chartDoma = document.getElementById('maina');
   var myCharta = echarts.init(chartDoma);
-  var data = {{revenue|tojson}};
-  var count = {{dataa|tojson}};
+  var data = {{ revenue| tojson}};
+  var count = {{ dataa| tojson}};
   var optiona = {
     title: {
       text: '各月訂單數量分析'
@@ -62,8 +65,8 @@
       data: data,
       markPoint: {
         data: [
-          {type: 'max', name: '銷量最高月份'},
-          {type: 'min', name: '銷量最低月份'}
+          { type: 'max', name: '銷量最高月份' },
+          { type: 'min', name: '銷量最低月份' }
         ]
       },
       label: {
@@ -80,10 +83,10 @@
     },
   };
 
-  // 以圓餅圖分析書本銷量
+  // 以圓餅圖分析銷量
   var chartDomb = document.getElementById('mainb');
   var myChartb = echarts.init(chartDomb);
-  var data = {{datab|tojson}};
+  var data = {{ datab| tojson}};
   var optionb = {
     title: {
       text: '各類商品銷量分析',
@@ -99,7 +102,7 @@
     series: [
       {
         type: 'pie',
-        data: data,          
+        data: data,
         radius: ['40%', '70%']
       }
     ]
@@ -108,10 +111,10 @@
   // 使用動態長條圖查看消費總額最多的使用者
   var chartDomc = document.getElementById('mainc');
   var myChartc = echarts.init(chartDomc);
-  var data = {{datac|tojson}};
-  var nameList = {{nameList|tojson}};
+  var data = {{ datac| tojson}};
+  var nameList = {{ nameList| tojson}};
   // var counter = {{counter|tojson}};
-  var countList = {{countList|tojson}};
+  var countList = {{ countList| tojson}};
   var optionc = {
     title: {
       text: '使用者消費排名'
@@ -151,7 +154,7 @@
           valueAnimation: true
         }
       }
-      ],
+    ],
     legend: {
       show: true
     },
@@ -172,18 +175,18 @@
     });
   }
 
-  setTimeout(function() {
+  setTimeout(function () {
     run();
   }, 0);
-        
-  setInterval(function() {
+
+  setInterval(function () {
     update();
   }, 3000);
 
   optiona && myCharta.setOption(optiona);
   optionb && myChartb.setOption(optionb);
   optionc && myChartc.setOption(optionc);
-      
+
 </script>
 
 {% endblock content %}
