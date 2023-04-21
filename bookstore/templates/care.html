@@ -32,14 +32,14 @@
             $(function() {
             var dateFormat = "mm/dd/yy",
                 //限定最近7天送件
-                from = $("#from").datepicker({
+                from = $("#dtime").datepicker({
                 defaultDate: "+1w",
                 changeMonth: true,
                 changeYear: true,
                 minDate:"1",
                 maxDate: "7",
                 onClose: function(selectedDate) {
-                    $("#to").datepicker(
+                    $("#ptime").datepicker(
                     "option",
                     "minDate",
                     modifyMinMaxDate(new Date(selectedDate), 7)
@@ -47,14 +47,14 @@
                 }
                 }),
                 // 送件日期+14~28
-                to = $("#to").datepicker({
+                to = $("#ptime").datepicker({
                 defaultDate: "+1w",
                 changeMonth: true,
                 changeYear: true,
                 minDate: "14",
                 maxDate: "28",
                 onClose: function(selectedDate) {
-                    $("#from").datepicker(
+                    $("#dtime").datepicker(
                     "option",
                     "maxDate",
                     modifyMinMaxDate(new Date(selectedDate), 14)
@@ -79,12 +79,12 @@
                         <td>
                             <select name="car_brand" data-live-search="true" id="car_brand" class="form-control" title="Select Car Brand"> 
                             {% for book in data %}
-                            <option value="{{book.商品編號}}">{{book.商品編號}}</option>
+                            <option value="{{book.商品編號}}">選取商品編號</option>
                             {% endfor %}
                             </select>
                         </td>
-                        <td><input type="text" id="from"></p></td>
-                        <td><input type="text" id="to"></p></td>
+                        <td><input name = 'dtime' type="text" id="dtime"></p></td>
+                        <td><input name = 'ptime' type="text" id="ptime"></p></td>
                     </tr>
                 </table>
 
