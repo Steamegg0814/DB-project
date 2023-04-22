@@ -1,6 +1,6 @@
 from typing import Optional
 from link import *
-
+##### db setting ######
 class DB():
     def connect():
         cursor = connection.cursor()
@@ -27,7 +27,7 @@ class DB():
 
     def commit():
         connection.commit()
-
+##### Member sql ######
 class Member():
     def get_member(account):
         sql = "SELECT ACCOUNT, PASSWORD, MID, IDENTITY, NAME FROM MEMBER WHERE ACCOUNT = :id"
@@ -54,7 +54,9 @@ class Member():
     def get_role(userid):
         sql = 'SELECT IDENTITY, NAME FROM MEMBER WHERE MID = :id '
         return DB.fetchone(DB.execute_input( DB.prepare(sql), {'id':userid}))
+    
 
+##### cart sql ######
 class Cart():
     def check(user_id):
         sql = 'SELECT * FROM CART, RECORD WHERE CART.MID = :id AND CART.TNO = RECORD.TNO'
@@ -73,7 +75,20 @@ class Cart():
         sql = 'DELETE FROM CART WHERE MID = :id '
         DB.execute_input( DB.prepare(sql), {'id': user_id})
         DB.commit()
-       
+##### care sql ######
+class Care():
+    
+    def add_care(user_id, ptime, dtime):
+        sql = 'INSERT INTO CART(CID, PTIME, DTIME) VALUES ( :id, care_tno_seq.nextval ,TO_DATE(:ptime, :format ) ,TO_DATE(:dtime, :format )'
+        DB.execute_input( DB.prepare(sql), {'id': user_id,'ptime':ptime ,'dtime': dtime})
+        DB.commit()
+
+    def get_care(user_id):
+        sql = 'SELECT * FROM CARE WHERE MID = :id'
+        return DB.fetchone(DB.execute_input(DB.prepare(sql), {'id': user_id}))
+
+
+##### Product sql ######       
 class Product():
     def count():
         sql = 'SELECT COUNT(*) FROM PRODUCT'
