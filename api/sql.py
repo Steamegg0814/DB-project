@@ -91,7 +91,7 @@ class Care():
 
     ## get care data(先著跟產品，取保養編號、商品編號、商品名稱、保養價格、送件時間、取件時間)
     def get_care():
-        sql = 'SELECT C.CID, P.PID, P.PNAME, C.CPRICE, C.PTIME, C.DTIME FROM CARE C, PRODUCT P WHERE C.PID = P.PID'
+        sql = 'SELECT C.CID, P.PID, P.PNAME, C.CPRICE, C.PTIME, C.DTIME, C.MID FROM CARE C, PRODUCT P WHERE C.PID = P.PID'
         return DB.fetchall(DB.execute(DB.connect(), sql))
 
 
