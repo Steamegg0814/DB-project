@@ -72,22 +72,21 @@
         <form method="post" action={{ url_for('bookstore.care') }}>
             <table class="table table-bordered">
                 <tr>
-                    <th>商品序號</th>
+                    <th>商品名稱</th>
                     <th>預約送件日期</th>
                     <th>預約取件日期</th>
                 </tr>
                 <tr>
                     <td>
-                        <select name="car_brand" data-live-search="true" id="car_brand" class="form-control"
-                            title="Select Car Brand">
-                            {% for book in data %}
-                            <option value="{{book.商品編號}}">{{book.商品編號}}</option>
+                        <select name="pid" class="form-control">
+                            {% for book in book_data %}
+                            <option value="{{book.商品編號}}">{{book.商品編號}} {{book.商品名稱}}</option>
                             {% endfor %}
                         </select>
                     </td>
-                    <td><input type="text" id="from"></p>
+                    <td><input type="text" id="from" name="ptime"></p>
                     </td>
-                    <td><input type="text" id="to"></p>
+                    <td><input type="text" id="to" name="dtime"></p>
                     </td>
                 </tr>
             </table>
@@ -102,3 +101,4 @@
 </body>
 
 </html>
+{% endblock content%}

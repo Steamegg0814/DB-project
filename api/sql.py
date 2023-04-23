@@ -183,10 +183,10 @@ class Analysis():
         return DB.fetchall( DB.execute_input( DB.prepare(sql), {'identity':'user'}))
     
 
-
 class Care():
-    
-    def add_care(time, user_id):
-        sql = 'INSERT INTO CART(CID, PTIME, DTIME) VALUES ( care_tno_seq.nextval ,TODATE:ptime ,TODATE:dtime)'
-        DB.execute_input( DB.prepare(sql), {'ptime':time ,'dtime': time})
+    def add_care(pid, cprice, ptime, dtime, mid):
+        sql = 'INSERT INTO CARE VALUES (care_cid_seq.nextval, :pid, :price, :ptime, :dtime, :id)'
+        DB.execute_input( DB.prepare(sql), {'pid':pid, 'price':cprice, 'ptime':ptime ,'dtime': dtime, 'id':mid})
         DB.commit()
+
+        

@@ -11,7 +11,7 @@ from sqlalchemy import null
 from link import *
 import math
 from base64 import b64encode
-from api.sql import Member, Order_List, Product, Record, Cart
+from api.sql import Member, Order_List, Product, Record, Cart, Care
 
 store = Blueprint('bookstore', __name__, template_folder='../templates')
 
@@ -330,47 +330,47 @@ def only_cart():
 
 @store.route('/care', methods=['GET', 'POST'])
 def care():
+    #保養選擇包包
+    cursor.execute('SELECT * FROM PRODUCT')
+    book_row = cursor.fetchall()
+    book_data = []
+    for i in book_row:
+        book = {
+            '商品編號': i[0],
+            '商品名稱': i[1],
+            '商品價格': i[2],
+            '保養價格': i[2]*0.02
+        }
+        book_data.append(book)
     # 以防管理者誤闖
     if request.method == 'GET':
+        
+
         if( current_user.role == 'manager'):
             flash('No permission')
             return redirect(url_for('manager.home'))
         else:
-            return render_template('care.html', user=current_user.name)
+            return render_template('care.html', user=current_user.name, book_data=book_data)
     
     if request.method == 'POST':
-        ##delete care
-        if "delete" in request.form:
-            print("care deleted")
-            return render_template('care.html', user=current_user.name)
-        ##request care
-        if "care" in request.form:
-            pid = request.values.get('pid')    
-            #取得商品價錢
-            cprice = Product.get_product(pid)[2]
-
-            if(count == None):
-                return 0
+        if "buy" in request.form:
             
-            data = Cart.get_cart(current_user.id)
-            tno = data[2]
-            product_row = Record.get_record(tno)
-            product_data = []
-
-            for i in product_row:
-                pid = i[1]
-                pname = Product.get_name(i[1])
-                price = i[3]
-                amount = i[2]
-                
-                product = {
-                    '商品編號': pid,
-                    '商品名稱': pname,
-                    '商品價格': price,
-                    '數量': amount
-                }
-                product_data.append(product)
+            ptime = request.values.get('ptime')
+            date_obj = datetime.strptime(ptime, '%m/%d/%Y')
+            ptime = date_obj.strftime('%Y-%m-%d')
             
-            return product_data
-            print("care submmited")
-            return render_template('care.html', user=current_user.name)
+            dtime = request.values.get('dtime')
+            date_obj = datetime.strptime(dtime, '%m/%d/%Y')
+            dtime = date_obj.strftime('%Y-%m-%d')
+            
+            pid = request.values.get('pid')
+            for i in book_data:
+                if(i['商品編號'] == pid):
+                    cprice = i['保養價格']
+            mid = current_user.id
+
+            Care.add_care(pid, cprice, ptime, dtime, mid)
+            return render_template('care.html', user=current_user.name, book_data=book_data)
+       
+        
+        
