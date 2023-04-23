@@ -164,3 +164,23 @@ def orderManager():
             order_detail.append(orderdetail)
 
     return render_template('orderManager.html', orderData = order_data, orderDetail = order_detail, user=current_user.name)
+
+@manager.route('/careManager', methods=['GET', 'POST'])
+@login_required
+def careManager():
+    if request.method == 'POST':
+        pass
+    else:
+        care_row = Care.get_care()
+        care_data = []
+        for i in care_row:
+            care = {
+                '保養編號': i[0],
+                '商品編號': i[1],
+                '商品名稱':i[2],
+                '保養費用': i[3],
+                '送件時間': i[4],
+                '取件時間':i[5]
+            }
+            care_data.append(care)
+    return render_template('careManager.html', careData = care_data, user=current_user.name)
