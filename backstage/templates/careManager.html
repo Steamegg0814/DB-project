@@ -3,7 +3,7 @@
 {{ super() }}
 {% endblock head %}
 <!-- website title -->
-{% block title %} 保養管理 {% endblock title %}
+{% block title %} 訂單管理 {% endblock title %}
 
 {% block content %}
 <!-- website content -->
@@ -21,12 +21,12 @@
 
 
 {% for i in orderData %}
-<div class="modal fade" id="staticBackdrop{{i.訂單編號}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="staticBackdrop{{i.保養編號}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">訂單細項列表</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">保養細項列表</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -37,15 +37,15 @@
                                 <center>商品名稱</center>
                             </th>
                             <th>
-                                <center>商品單價</center>
+                                <center>保養單價</center>
                             </th>
                             <th>
-                                <center>訂購數量</center>
+                                <center>保養數量</center>
                             </th>
                         </tr>
 
                         {% for j in orderDetail %}
-                        {% if j.訂單編號 == i.訂單編號 %}
+                        {% if j.保養編號 == i.保養編號 %}
                         <tr>
                             <td>
                                 <center>{{ j.商品名稱 }}</center>
@@ -54,7 +54,7 @@
                                 <center>{{ j.商品單價 }}</center>
                             </td>
                             <td>
-                                <center>{{ j.訂購數量 }}</center>
+                                <center>{{ j.保養數量 }}</center>
                             </td>
                         </tr>
                         {% endif %}
@@ -64,7 +64,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal"
-                    style="width:30%;">回訂單</button>
+                    style="width:30%;">返回</button>
             </div>
         </div>
     </div>
@@ -81,7 +81,7 @@
                     d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
             </svg>
         </span>
-        <input class="form-control me-2" id="keyword" placeholder="搜尋訂單" aria-label="Search">
+        <input class="form-control me-2" id="keyword" placeholder="搜尋保養" aria-label="Search">
     </div>
 </div>
 
@@ -96,33 +96,39 @@
                     <center>訂購人</center>
                 </th>
                 <th width="15%">
-                    <center>訂單總價</center>
+                    <center>保養總價</center>
                 </th>
-                <th width="25%">
-                    <center>訂單時間</center>
+                <th width="15%">
+                    <center>送件時間</center>
                 </th>
-                <th>
-                    <center>訂單操作</center>
+                <th width="15%">
+                    <center>取件時間</center>
                 </th>
+                <td>
+                    <center>保養操作</center>
+                </td>
             </tr>
         </thead>
-        <tbody id="orderlist">
+        <tbody id="carelist">
             {% for i in orderData %}
             <tr>
                 <td>
                     <center>{{ i.訂購人 }}</center>
                 </td>
                 <td>
-                    <center>{{ i.訂單總價 }}</center>
+                    <center>{{ i.保養總價 }}</center>
                 </td>
                 <td>
-                    <center>{{ i.訂單時間 }}</center>
+                    <center>{{ i.送件時間 }}</center>
+                </td>
+                <td>
+                    <center>{{ i.取件時間 }}</center>
                 </td>
                 <td>
                     <center>
                         <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop{{i.訂單編號}}">
-                            查看訂單細項
+                            查看保養細項
                         </button>
                     </center>
                 </td>
