@@ -53,6 +53,9 @@
             <tr>
                 <!-- <th width="10%">商品編號</th> -->
                 <th>
+                    <center>會員編號</center>
+                </th>
+                <th>
                     <center>商品編號</center>
                 </th>
                 <th>
@@ -72,6 +75,9 @@
         <tbody id="carelist">
         {% for i in careData %}
             <tr>
+                <td>
+                    <center>{{ i.會員編號 }}</center>
+                </td>
                 <td>
                     <center>{{ i.商品編號 }}</center>
                 </td>
