@@ -180,7 +180,8 @@ def careManager():
                 '商品名稱':i[2],
                 '保養費用': i[3],
                 '送件時間': i[4],
-                '取件時間':i[5]
+                '取件時間':i[5],
+                '會員編號':i[6]
             }
             care_data.append(care)
     return render_template('careManager.html', careData = care_data, user=current_user.name)
