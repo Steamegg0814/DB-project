@@ -328,12 +328,12 @@ def only_cart():
     return product_data
 
 
-
+@store.route('/care',methods=['GET','POST'])
 def care():
     
     cprice = Product.get_product(pid)[2]
 
-    if(count == None):
+    if(cprice == None):
         return 0
     
     data = Cart.get_cart(current_user.id)
