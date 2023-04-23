@@ -156,7 +156,7 @@ def bookstore():
 @store.route('/cart', methods=['GET', 'POST'])
 @login_required # 使用者登入後才可以看
 def cart():
-
+    request
     # 以防管理者誤闖
     if request.method == 'GET':
         if( current_user.role == 'manager'):
@@ -328,31 +328,49 @@ def only_cart():
     return product_data
 
 
-
+@store.route('/care', methods=['GET', 'POST'])
 def care():
+    # 以防管理者誤闖
+    if request.method == 'GET':
+        if( current_user.role == 'manager'):
+            flash('No permission')
+            return redirect(url_for('manager.home'))
+        else:
+            return render_template('care.html', user=current_user.name)
     
-    cprice = Product.get_product(pid)[2]
+    if request.method == 'POST':
+        ##delete care
+        if "delete" in request.form:
+            print("care deleted")
+            return render_template('care.html', user=current_user.name)
+        ##request care
+        if "care" in request.form:
+            pid = request.values.get('pid')    
+            #取得商品價錢
+            cprice = Product.get_product(pid)[2]
 
-    if(count == None):
-        return 0
-    
-    data = Cart.get_cart(current_user.id)
-    tno = data[2]
-    product_row = Record.get_record(tno)
-    product_data = []
+            if(count == None):
+                return 0
+            
+            data = Cart.get_cart(current_user.id)
+            tno = data[2]
+            product_row = Record.get_record(tno)
+            product_data = []
 
-    for i in product_row:
-        pid = i[1]
-        pname = Product.get_name(i[1])
-        price = i[3]
-        amount = i[2]
-        
-        product = {
-            '商品編號': pid,
-            '商品名稱': pname,
-            '商品價格': price,
-            '數量': amount
-        }
-        product_data.append(product)
-    
-    return product_data
+            for i in product_row:
+                pid = i[1]
+                pname = Product.get_name(i[1])
+                price = i[3]
+                amount = i[2]
+                
+                product = {
+                    '商品編號': pid,
+                    '商品名稱': pname,
+                    '商品價格': price,
+                    '數量': amount
+                }
+                product_data.append(product)
+            
+            return product_data
+            print("care submmited")
+            return render_template('care.html', user=current_user.name)

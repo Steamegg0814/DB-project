@@ -20,7 +20,7 @@ app.secret_key = 'Your Key'
 app.register_blueprint(api, url_prefix='/')
 app.register_blueprint(store, url_prefix='/bookstore')
 app.register_blueprint(analysis, url_prefix='/backstage')
-app.register_blueprint(manager, url_prefix='/backstage')
+app.register_blueprint(manager, url_prefix='/care')
 
 login_manager.init_app(app)
 
@@ -31,4 +31,4 @@ def index():
 if __name__ == '__main__':
     app.debug = True
     app.secret_key = "Your Key"
-    app.run()
+    app.run(host='0.0.0.0', port=15000)
