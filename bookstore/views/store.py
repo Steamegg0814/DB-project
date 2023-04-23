@@ -11,7 +11,7 @@ from sqlalchemy import null
 from link import *
 import math
 from base64 import b64encode
-from api.sql import Member, Order_List, Product, Record, Cart
+from api.sql import Member, Order_List, Product, Record, Cart, Care
 
 store = Blueprint('bookstore', __name__, template_folder='../templates')
 
@@ -71,7 +71,7 @@ def bookstore():
         price = data[2]
         category = data[3]
         description = data[4]
-        image = 'sdg.jpg'
+        image = 'chanel_bag.jpg'
         
         product = {
             '商品編號': pid,
@@ -156,7 +156,7 @@ def bookstore():
 @store.route('/cart', methods=['GET', 'POST'])
 @login_required # 使用者登入後才可以看
 def cart():
-
+    request
     # 以防管理者誤闖
     if request.method == 'GET':
         if( current_user.role == 'manager'):
@@ -169,9 +169,10 @@ def cart():
         if "pid" in request.form :
             data = Cart.get_cart(current_user.id)
             
+            
             if( data == None): #假如購物車裡面沒有他的資料
                 time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                Cart.add_cart(current_user.id, time) # 幫他加一台購物車
+                Cart.add_cart(time, current_user.id) # 幫他加一台購物車
                 data = Cart.get_cart(current_user.id) 
                 
             tno = data[2] # 取得交易編號
@@ -325,3 +326,51 @@ def only_cart():
         product_data.append(product)
     
     return product_data
+
+
+@store.route('/care', methods=['GET', 'POST'])
+def care():
+    #保養選擇包包
+    cursor.execute('SELECT * FROM PRODUCT')
+    book_row = cursor.fetchall()
+    book_data = []
+    for i in book_row:
+        book = {
+            '商品編號': i[0],
+            '商品名稱': i[1],
+            '商品價格': i[2],
+            '保養價格': i[2]*0.02
+        }
+        book_data.append(book)
+    # 以防管理者誤闖
+    if request.method == 'GET':
+        
+
+        if( current_user.role == 'manager'):
+            flash('No permission')
+            return redirect(url_for('manager.home'))
+        else:
+            return render_template('care.html', user=current_user.name, book_data=book_data)
+    
+    if request.method == 'POST':
+        if "buy" in request.form:
+            
+            ptime = request.values.get('ptime')
+            date_obj = datetime.strptime(ptime, '%m/%d/%Y')
+            ptime = date_obj.strftime('%Y-%m-%d')
+            
+            dtime = request.values.get('dtime')
+            date_obj = datetime.strptime(dtime, '%m/%d/%Y')
+            dtime = date_obj.strftime('%Y-%m-%d')
+            
+            pid = request.values.get('pid')
+            for i in book_data:
+                if(i['商品編號'] == pid):
+                    cprice = i['保養價格']
+            mid = current_user.id
+
+            Care.add_care(pid, cprice, ptime, dtime, mid)
+            return render_template('care.html', user=current_user.name, book_data=book_data)
+       
+        
+        

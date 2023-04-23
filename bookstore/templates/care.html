@@ -13,23 +13,24 @@
 <!-- <script language="javascript">
     alert('您沒有使用者的權限喔！');
 </script> -->
-  
+
 {% endif %}
 {% endwith %}
 <html>
-    <head>
-        <title>預約保養</title>
-        <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet"> 
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-        <script>
-            function modifyMinMaxDate(date, days) {
-                var tempDate = date;
-                tempDate.setDate(tempDate.getDate() + days);
-                return tempDate;
-            }
 
-            $(function() {
+<head>
+    <title>預約保養</title>
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script>
+        function modifyMinMaxDate(date, days) {
+            var tempDate = date;
+            tempDate.setDate(tempDate.getDate() + days);
+            return tempDate;
+        }
+
+        $(function () {
             var dateFormat = "mm/dd/yy",
                 //限定最近7天送件
                 from = $("#dtime").datepicker({
@@ -61,10 +62,10 @@
                     );
                 }
                 });
-            });
+        });
 
-        </script>
-    </head>
+    </script>
+</head>
 
     <body>
         <div class="col-sm-4">
@@ -88,8 +89,9 @@
                     </tr>
                 </table>
 
+        </form>
+    </div>
+</body>
 
-            </form> 
-        </div>
-    </body>
 </html>
+{% endblock content%}
