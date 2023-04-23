@@ -66,9 +66,9 @@ class Cart():
         sql = 'SELECT * FROM CART WHERE MID = :id'
         return DB.fetchone(DB.execute_input(DB.prepare(sql), {'id': user_id}))
 
-    def add_cart(user_id, time):
-        sql = 'INSERT INTO CART VALUES (:id, :time, cart_tno_seq.nextval)'
-        DB.execute_input( DB.prepare(sql), {'id': user_id, 'time':time})
+    def add_cart(time, user_id):
+        sql = 'INSERT INTO CART VALUES (:time, :id, cart_tno_seq.nextval)'
+        DB.execute_input( DB.prepare(sql), {'time':time ,'id': user_id})
         DB.commit()
 
     def clear_cart(user_id):
@@ -78,14 +78,21 @@ class Cart():
 ##### care sql ######
 class Care():
     
-    def add_care(user_id, ptime, dtime):
-        sql = 'INSERT INTO CART(CID, PTIME, DTIME) VALUES ( :id, care_tno_seq.nextval ,TO_DATE(:ptime, :format ) ,TO_DATE(:dtime, :format )'
-        DB.execute_input( DB.prepare(sql), {'id': user_id,'ptime':ptime ,'dtime': dtime})
-        DB.commit()
+    # ## 新增一個care
+    # def select_product():
+    #     sql = 'SELECT * FROM PRODUCT'
+    #     return DB.fetchall(DB.execute( DB.connect(), sql))
+   
 
-    def get_care(user_id):
-        sql = 'SELECT * FROM CARE WHERE MID = :id'
-        return DB.fetchone(DB.execute_input(DB.prepare(sql), {'id': user_id}))
+    # def add_care(user_id):
+    #     sql = 'INSERT INTO CART(CID,PID,DTIME,PTIME) VALUES (null, :pid, :dtime, :ptime)'
+    #     DB.execute_input(DB.prepare(sql), input)
+    #     DB.commit()
+
+    ## get care data(先著跟產品，取保養編號、商品編號、商品名稱、保養價格、送件時間、取件時間)
+    def get_care():
+        sql = 'SELECT C.CID, P.PID, P.PNAME, C.CPRICE, C.PTIME, C.DTIME FROM CARE C, PRODUCT P WHERE C.PID = P.PID'
+        return DB.fetchall(DB.execute(DB.connect(), sql))
 
 
 ##### Product sql ######       
@@ -197,5 +204,3 @@ class Analysis():
         sql = 'SELECT COUNT(*), MEMBER.MID, MEMBER.NAME FROM ORDER_LIST, MEMBER WHERE ORDER_LIST.MID = MEMBER.MID AND MEMBER.IDENTITY = :identity GROUP BY MEMBER.MID, MEMBER.NAME ORDER BY COUNT(*) DESC'
         return DB.fetchall( DB.execute_input( DB.prepare(sql), {'identity':'user'}))
     
-    #def month_care(i):
-        sql = 'SELECT EXTRACT(MONTH FROM ORDERTIME), COUNT(CID) FROM ORDER_LIST WHERE EXTRACT(MONTH FROM ORDERTIME)=:mon GROUP BY EXTRACT(MONTH FROM ORDERTIME)''
