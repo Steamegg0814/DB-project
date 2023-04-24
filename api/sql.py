@@ -197,3 +197,15 @@ class Analysis():
         sql = 'SELECT COUNT(*), MEMBER.MID, MEMBER.NAME FROM ORDER_LIST, MEMBER WHERE ORDER_LIST.MID = MEMBER.MID AND MEMBER.IDENTITY = :identity GROUP BY MEMBER.MID, MEMBER.NAME ORDER BY COUNT(*) DESC'
         return DB.fetchall( DB.execute_input( DB.prepare(sql), {'identity':'user'}))
     
+    def month_cprice(i):
+        #group by 送件時間
+        sql = 'SELECT EXTRACT(MONTH FROM DTIME), SUM(CPRICE) FROM CARE WHERE EXTRACT(MONTH FROM DTIME)=:mon GROUP BY EXTRACT(MONTH FROM DTIME)'
+        return DB.fetchall( DB.execute_input( DB.prepare(sql) , {"mon": i}))
+    
+    def month_ccount(i):
+        sql = 'SELECT EXTRACT(MONTH FROM DTIME), COUNT(CID) FROM CARE WHERE EXTRACT(MONTH FROM DTIME)=:mon GROUP BY EXTRACT(MONTH FROM DTIME)'
+        return DB.fetchall( DB.execute_input( DB.prepare(sql), {"mon": i}))
+    
+    def category_care():
+        sql = 'SELECT SUM(CPRICE), CATEGORY FROM(SELECT * FROM PRODUCT,CARE WHERE PRODUCT.PID = CARE.PID) GROUP BY CATEGORY'
+        return DB.fetchall( DB.execute( DB.connect(), sql))

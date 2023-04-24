@@ -10,6 +10,9 @@ analysis = Blueprint('analysis', __name__, template_folder='../templates')
 def dashboard():
     revenue = []
     dataa = []
+    care_revenue = []
+    care_count = []
+
     for i in range(1,13):
         row = Analysis.month_price(i)
 
@@ -26,7 +29,25 @@ def dashboard():
         else:
             for k in row:
                 dataa.append(k[1])
+
+        row = Analysis.month_cprice(i)
+
+        if not row:
+            care_revenue.append(0)
+        else:
+            for l in row:
+                care_revenue.append(l[1])
         
+        row = Analysis.month_ccount(i)
+        
+        if not row:
+            care_count.append(0)
+        else:
+            for m in row:
+                care_count.append(m[1])
+
+
+
     row = Analysis.category_sale()
     datab = []
     for i in row:
@@ -35,6 +56,18 @@ def dashboard():
             'name': i[1]
         }
         datab.append(temp)
+
+
+    #care_category
+    row = Analysis.category_()
+    care_category = []
+    for i in row:
+        temp = {
+            'value': i[0],
+            'name': i[1]
+        }
+        care_category.append(temp)
+
     
     row = Analysis.member_sale()
     
@@ -55,5 +88,9 @@ def dashboard():
     
     for i in row:
         countList.append(i[0])
+
+
+
+
         
-    return render_template('dashboard.html', counter = counter, revenue = revenue, dataa = dataa, datab = datab, datac = datac, nameList = nameList, countList = countList)
+    return render_template('dashboard.html', counter = counter, revenue = revenue, dataa = dataa, care_revenue = care_revenue, care_count = care_count, datab = datab, care_category = care_category, datac = datac, nameList = nameList, countList = countList)

@@ -15,9 +15,11 @@
         <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button"
           role="tab" aria-controls="nav-profile" aria-selected="false">銷量分類</button>
         <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button"
-          role="tab" aria-controls="nav-contact" aria-selected="false">消費總額排名</button>
-        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button"
-          role="tab" aria-controls="nav-home" aria-selected="true">保養數量分析</button>
+          role="tab" aria-controls="nav-contact" aria-selected="false">會員消費總額</button>
+        <button class="nav-link" id="nav-care-tab" data-bs-toggle="tab" data-bs-target="#nav-care" type="button"
+          role="tab" aria-controls="nav-care" aria-selected="false">保養分析</button>
+        <button class="nav-link" id="nav-care-category-tab" data-bs-toggle="tab" data-bs-target="#nav-care-category" type="button"
+          role="tab" aria-controls="nav-care-category-tab" aria-selected="false">保養分類統計</button>
       </div>
     </nav>
   </div>
@@ -37,11 +39,16 @@
       <center>
         <div id="mainc" class="container-fluid" style="width: 1200px;height:500px"></div>
       </center>
-      <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-        <center>
+    </div>
+    <div class="tab-pane fade" id="nav-care" role="tabpanel" aria-labelledby="nav-care-tab">
+      <center>
           <div id="maind" class="container-fluid" style="width: 1200px;height:500px"></div>
-        </center>
-      </div>
+      </center>
+    </div>
+    <div class="tab-pane fade" id="nav-care-category" role="tabpanel" aria-labelledby="nav-care-category-tab">
+      <center>
+          <div id="maine" class="container-fluid" style="width: 600px;height:500px"></div>
+      </center>
     </div>
   </div>
 
@@ -190,33 +197,34 @@
     }, 3000);
 
 
-    // 以長條圖與折線圖分析各月保養紀錄
-    var chartDoma = document.getElementById('maind');
+
+    // 以長條圖與折線圖分析各月保養預約
+    var chartDomd = document.getElementById('maind');
     var myChartd = echarts.init(chartDomd);
-    var data = {{ revenue| tojson}};
-    var count = {{ datad| tojson}};
+    var data = {{ care_revenue| tojson}};
+    var count = {{ care_count| tojson}};
     var optiond = {
       title: {
         text: '各月保養數量分析'
       },
       tooltip: {},
       legend: {
-        data: ['保養數量']
+        data: ['保養單數量']
       },
       xAxis: {
         data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
       },
       yAxis: {},
       series: [{
-        name: '總額',
+        name: '保養總額',
         type: 'bar',
         // symbol: 'circle',
         symbolSize: 16,
         data: data,
         markPoint: {
           data: [
-            { type: 'max', name: '總額最高月份' },
-            { type: 'min', name: '總額最低月份' }
+            { type: 'max', name: '保養預約最高月份' },
+            { type: 'min', name: '保養預約最低月份' }
           ]
         },
         label: {
@@ -233,10 +241,36 @@
       },
     };
 
+    // 以圓餅圖分析保養分類單數
+    var chartDome = document.getElementById('maine');
+    var myCharte = echarts.init(chartDome);
+    var data = {{ care_category| tojson}};
+    var optione = {
+      title: {
+        text: '各類商品保養數分析',
+        left: 'center',
+        top: 'center'
+      },
+      tooltip: {},
+      legend: {
+        orient: 'vertical',
+        x: 'left',
+        data: ['SHOES', 'BAG', 'JEWELRY']
+      },
+      series: [
+        {
+          type: 'pie',
+          data: data,
+          radius: ['40%', '70%']
+        }
+      ]
+    };
+
     optiona && myCharta.setOption(optiona);
     optionb && myChartb.setOption(optionb);
     optionc && myChartc.setOption(optionc);
     optiond && myChartd.setOption(optiond);
+    optione && myCharte.setOption(optione);
 
   </script>
 
