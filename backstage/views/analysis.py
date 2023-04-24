@@ -59,7 +59,7 @@ def dashboard():
 
 
     #care_category
-    row = Analysis.category_()
+    row = Analysis.category_care()
     care_category = []
     for i in row:
         temp = {

@@ -68,29 +68,38 @@
 </head>
 
 <body>
+    <br />
     <div class="container-xl">
         <form method="post" action={{ url_for('bookstore.care') }}>
             <table class="table table-bordered">
                 <tr>
-                    <th>商品名稱</th>
-                    <th>預約送件日期</th>
-                    <th>預約取件日期</th>
+                    <th>
+                        <center>商品名稱</center>
+                    </th>
+                    <th>
+                        <center>預約送件日期</center>
+                    </th>
+                    <th>
+                        <center>預約取件日期</center>
+                    </th>
                 </tr>
                 <tr>
-                    <td width="40%">
+                    <td width="34%">
                         <select name="pid" class="form-control">
                             {% for book in book_data %}
                             <option value="{{book.商品編號}}">{{book.商品編號}} {{book.商品名稱}}</option>
                             {% endfor %}
                         </select>
                     </td>
-                    <td><input type="text" id="from" name="ptime"></p>
+                    <td><input type="text" id="from" name="ptime" class="form-control"></p>
                     </td>
-                    <td><input type="text" id="to" name="dtime"></p>
+                    <td><input type="text" id="to" name="dtime" class="form-control"></p>
                     </td>
                 </tr>
             </table>
-            <td><button class="btn btn-success" type="submit" name="buy">送出</button></td>
+            <td>
+                <center><button class="btn btn-success" type="submit" name="buy">送出</button></center>
+            </td>
 
         </form>
     </div>
