@@ -33,61 +33,64 @@
         $(function () {
             var dateFormat = "mm/dd/yy",
                 //限定最近7天送件
-                from = $("#dtime").datepicker({
-                defaultDate: "+1w",
-                changeMonth: true,
-                changeYear: true,
-                minDate:"1",
-                maxDate: "7",
-                onClose: function(selectedDate) {
-                    $("#ptime").datepicker(
-                    "option",
-                    "minDate",
-                    modifyMinMaxDate(new Date(selectedDate), 7)
-                    );
-                }
+                from = $("#from").datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    changeYear: true,
+                    minDate: "1",
+                    maxDate: "7",
+                    onClose: function (selectedDate) {
+                        $("#to").datepicker(
+                            "option",
+                            "minDate",
+                            modifyMinMaxDate(new Date(selectedDate), 7)
+                        );
+                    }
                 }),
                 // 送件日期+14~28
-                to = $("#ptime").datepicker({
-                defaultDate: "+1w",
-                changeMonth: true,
-                changeYear: true,
-                minDate: "14",
-                maxDate: "28",
-                onClose: function(selectedDate) {
-                    $("#dtime").datepicker(
-                    "option",
-                    "maxDate",
-                    modifyMinMaxDate(new Date(selectedDate), 14)
-                    );
-                }
+                to = $("#to").datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    changeYear: true,
+                    minDate: "14",
+                    maxDate: "28",
+                    onClose: function (selectedDate) {
+                        $("#from").datepicker(
+                            "option",
+                            "maxDate",
+                            modifyMinMaxDate(new Date(selectedDate), 14)
+                        );
+                    }
                 });
         });
 
     </script>
 </head>
 
-    <body>
-        <div class="col-sm-4">
-            <form method="post" action={{ url_for('bookstore.care') }}>
-                <table class="table table-bordered">
-                    <tr>
-                        <th>商品序號</th>
-                        <th>預約送件日期</th>
-                        <th>預約取件日期</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select name="care_product" id="care_product" class="form-control" title="Select product"> 
-                            {% for book in data %}
-                            <option value="{{book.商品編號}}">選取商品編號</option>
+<body>
+    <div class="container-xl">
+        <form method="post" action={{ url_for('bookstore.care') }}>
+            <table class="table table-bordered">
+                <tr>
+                    <th>商品名稱</th>
+                    <th>預約送件日期</th>
+                    <th>預約取件日期</th>
+                </tr>
+                <tr>
+                    <td width="40%">
+                        <select name="pid" class="form-control">
+                            {% for book in book_data %}
+                            <option value="{{book.商品編號}}">{{book.商品編號}} {{book.商品名稱}}</option>
                             {% endfor %}
-                            </select>
-                        </td>
-                        <td><input name = 'dtime' type="text" id="dtime"></p></td>
-                        <td><input name = 'ptime' type="text" id="ptime"></p></td>
-                    </tr>
-                </table>
+                        </select>
+                    </td>
+                    <td><input type="text" id="from" name="ptime"></p>
+                    </td>
+                    <td><input type="text" id="to" name="dtime"></p>
+                    </td>
+                </tr>
+            </table>
+            <td><button class="btn btn-success" type="submit" name="buy">送出</button></td>
 
         </form>
     </div>
