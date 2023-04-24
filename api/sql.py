@@ -77,9 +77,9 @@ class Cart():
         DB.commit()
 ##### care sql ######
 class Care():
-     def add_care(pid, cprice, ptime, dtime, mid):
-        sql = 'INSERT INTO CARE VALUES (care_cid_seq.nextval, :pid, :price, :ptime, :dtime, :id)'
-        DB.execute_input( DB.prepare(sql), {'pid':pid, 'price':cprice, 'ptime':ptime ,'dtime': dtime, 'id':mid})
+     def add_care(input):
+        sql = 'INSERT INTO CARE VALUES (care_cid_seq.nextval, :pid, :price, TO_DATE(:ptime, :format), TO_DATE(:dtime, :format), :id)'
+        DB.execute_input( DB.prepare(sql), input)
         DB.commit()
     
     ## get care data(先著跟產品，取保養編號、商品編號、商品名稱、保養價格、送件時間、取件時間)
