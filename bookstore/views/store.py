@@ -355,13 +355,15 @@ def care():
     if request.method == 'POST':
         if "buy" in request.form:
             
+            format = 'yyyy/mm/dd hh24:mi:ss'
+
             ptime = request.values.get('ptime')
             date_obj = datetime.strptime(ptime, '%m/%d/%Y')
-            ptime = date_obj.strftime('%Y-%m-%d')
+            ptime = str(date_obj.strftime('%Y-%m-%d'))
             
             dtime = request.values.get('dtime')
-            date_obj = datetime.strptime(dtime, '%m/%d/%Y')
-            dtime = date_obj.strftime('%Y-%m-%d')
+            dtime = datetime.strptime(dtime, '%m/%d/%Y')
+            dtime = str(date_obj.strftime('%Y-%m-%d'))
             
             pid = request.values.get('pid')
             for i in book_data:
@@ -369,8 +371,10 @@ def care():
                     cprice = i['保養價格']
             mid = current_user.id
 
-            Care.add_care(pid, cprice, ptime, dtime, mid)
-            return render_template('care.html', user=current_user.name, book_data=book_data)
+            Care.add_care({'pid':pid, 'price':cprice, 'ptime':ptime ,'dtime': dtime,'format':format,'id':mid} )
+            return render_template('carecomplete.html', user=current_user.name)
+
+        return render_template('care.html', user=current_user.name, book_data=book_data)
        
         
         
